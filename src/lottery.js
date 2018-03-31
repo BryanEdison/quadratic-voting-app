@@ -1,11 +1,20 @@
 import web3 from './web3';
 
-const address = '0x93df3831cfe63933a89b9381bdb2c07fe907cbce';
+const address = '0x04fef0ebd4d913c96543c87b2c6de0ee42c1264c';
 
 const abi = [
 	{
 		"constant": false,
-		"inputs": [],
+		"inputs": [
+			{
+				"name": "vote",
+				"type": "bool"
+			},
+			{
+				"name": "count",
+				"type": "uint256"
+			}
+		],
 		"name": "enter",
 		"outputs": [],
 		"payable": true,
@@ -16,21 +25,73 @@ const abi = [
 		"constant": false,
 		"inputs": [],
 		"name": "pickWinner",
-		"outputs": [],
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
 		"payable": false,
 		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
+		"inputs": [
+			{
+				"name": "_vote_cost",
+				"type": "uint256"
+			}
+		],
+		"payable": true,
+		"stateMutability": "payable",
 		"type": "constructor"
 	},
 	{
 		"constant": true,
 		"inputs": [],
-		"name": "getPlayers",
+		"name": "againstVotes",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "balance",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "forVotes",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getVoters",
 		"outputs": [
 			{
 				"name": "",
@@ -57,13 +118,27 @@ const abi = [
 	},
 	{
 		"constant": true,
+		"inputs": [],
+		"name": "vote_cost",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
 		"inputs": [
 			{
 				"name": "",
 				"type": "uint256"
 			}
 		],
-		"name": "players",
+		"name": "voters",
 		"outputs": [
 			{
 				"name": "",

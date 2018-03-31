@@ -4,3 +4,73 @@ npm install Web3 from '
 USE JAVASCRIPT EVM - no test ether required.
 
 make lottery.js in src
+
+
+pragma solidity ^0.4.21;
+
+contract Election {
+    address public manager;
+    address[] public voters;
+    mapping(address => Vote) votes;
+
+    uint public vote_cost;
+    uint public balance;
+    uint public forVotes;
+	uint public againstVotes;
+
+    struct Vote {
+        bool vote;
+        uint vote_count;
+        uint total_cost;
+    }
+
+    function Election (uint _vote_cost) public payable {
+        manager = msg.sender;
+        vote_cost = _vote_cost;
+    }
+
+
+    function enter(bool vote, uint count) public payable {
+        uint total = vote_cost * (count*count);
+        require (msg.value >= total);
+        var newVote = votes[msg.sender]; // probs broken
+        newVote.vote_count = count;
+        newVote.vote = vote;
+        newVote.total_cost = total;
+
+		if(vote) {
+			forVotes += count;
+		} else {
+		    againstVotes += count;
+		}
+        balance += total;
+        votes[msg.sender] = newVote;
+        voters.push(msg.sender); // voter address
+        return;
+    }
+
+    function sendPayment(address[] recipients, uint totalPayout) private {
+        // get total balance
+        // get total voters
+        // pay each player avg pool
+        uint totalVoters = recipients.length;
+        uint portion = totalPayout / totalVoters;
+        for (uint i=0; i < totalVoters; i++) {
+
+            recipients[i].transfer(portion);
+        }
+    }
+
+    function pickWinner () public returns (bool) {
+        require(msg.sender == manager);
+        // some logic for deciding end vote
+        sendPayment(voters, balance);
+         return (forVotes > againstVotes);
+    }
+
+    function getVoters() public view returns (address[]) {
+        return voters;
+    }
+
+
+}
