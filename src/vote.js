@@ -3,12 +3,40 @@ import logo from './logo.svg';
 import './App.css';
 import web3 from "./web3";
 import lottery from "./lottery";
+import RaisedButton from 'material-ui/RaisedButton';
+import Avatar from 'material-ui/Avatar';
+import {List, ListItem} from 'material-ui/List';
+import Subheader from 'material-ui/Subheader';
+import Divider from 'material-ui/Divider';
+import CommunicationChatBubble from 'material-ui/svg-icons/communication/chat-bubble';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+
+
+import TextField from 'material-ui/TextField';
 import {
   BrowserRouter as Router,
   Route,
   Link
 } from 'react-router-dom'
 
+import { Connect } from 'uport-connect'
+
+const uport = new Connect('Peace Accelerators');
+
+
+const connectUPort = () => {
+  uport.requestCredentials().then((credentials) => {
+    console.log(credentials)
+  })
+};
+
+
+
+
+
+const style = {
+  margin: 12,
+};
 
 
   export default class Vote extends Component {
@@ -23,7 +51,7 @@ import {
     async componentDidMount() {
 
       const manager = await lottery.methods.manager().call();
-      const players = await lottery.methods.getPlayers().call();
+      const players = await lottery.methods.getVoters().call();
       const balance = await web3.eth.getBalance(lottery.options.address);
 
       this.setState({ manager, players, balance });
@@ -64,33 +92,73 @@ import {
 
 
   render() {
+    console.log(this.state.value)
     return (
       <div>
-        <h2>Lottery Contract</h2>
-        <p>
-          This contract is managed by {this.state.manager}. There are{" "}
-          {this.state.players.length} people entered, competing to win{" "}
-          {web3.utils.fromWei(this.state.balance, "ether")} ether!
-        </p>
-        <hr />
 
-        <form onSubmit={this.enterLottery}>
-          <h4>Want to try your luck?</h4>
-          <div>
 
-            <label>Amount of ether to enter</label>
-            <input
-              value={this.state.value}
-              onChange={event => this.setState({ value: event.target.value })}
-            />
+      <center>
+      <form className="center" onSubmit={this.enterLottery}>
+        <h4>Voice your opinion!</h4>
+
+        <div>
+          <FloatingActionButton backgroundColor="green" style={{margin: 20}}>
+            ✔
+          </FloatingActionButton>
+          <FloatingActionButton backgroundColor="red" style={{margin: 20}}>
+              X
+          </FloatingActionButton>
           </div>
-          <button>Enter</button>
+        <div>
+        <br/><br/>
+          <label># of Votes Wanted</label> <br/>
+
+          <TextField
+          value={this.state.value}
+            onChange={event => this.setState({ value: event.target.value })}
+          hintText="Please enter an ether value"
+
+        />
+
+
+        </div>
+        <button><RaisedButton label="Enter" primary={true} style={style} /></button>
         </form>
-        <hr />
-        <h4>Ready to pick a winner?</h4>
-        <button onClick={this.pickWinner}>Pick a winner</button>
-        <hr />
+</center>
+
+    <List>
+      <Subheader>Recent votes</Subheader>
+      <ListItem
+        primaryText="Brendan Lim"
+        leftAvatar={<Avatar src="http://lorempixel.com/400/200" />}
+        rightIcon={<CommunicationChatBubble />}
+      />
+      <ListItem
+        primaryText="Eric Hoffman"
+        leftAvatar={<Avatar src="http://lorempixel.com/400/200" />}
+        rightIcon={<CommunicationChatBubble />}
+      />
+      <ListItem
+        primaryText="Grace Ng"
+        leftAvatar={<Avatar src="http://lorempixel.com/400/200" />}
+        rightIcon={<CommunicationChatBubble />}
+      />
+      <ListItem
+        primaryText="Kerem Suer"
+        leftAvatar={<Avatar src="http://lorempixel.com/400/200" />}
+        rightIcon={<CommunicationChatBubble />}
+      />
+      <ListItem
+        primaryText="Raquel Parrado"
+        leftAvatar={<Avatar src="http://lorempixel.com/400/200" />}
+        rightIcon={<CommunicationChatBubble />}
+      />
+    </List>
+    <hr />
+        <center>
+        <RaisedButton onClick={this.pickWinner} label="Close Election" backgroundColor="red"/>
         <h1>{this.state.message}</h1>
+        </center>
       </div>
     );
   }

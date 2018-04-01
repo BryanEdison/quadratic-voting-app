@@ -1,11 +1,20 @@
 * {
-background-color: darkblue;
 font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+color: darkblue
+}
+#body {
+  background-image: url("http://blog.chrisworfolk.com/wp-content/uploads/2016/06/mr-t-vote.jpg");
+}
+#title{
+  font-family: 'Times New Roman', Times, serif;
 }
 
 h1 {
   text-align: center;
-  color: white
+}
+
+.center {
+  align-self: center;
 }
 
 .App {
